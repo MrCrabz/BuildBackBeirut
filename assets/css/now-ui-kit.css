@@ -7394,3 +7394,17 @@ img {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.allMaterialsNeeded{
+  margin-top: 70px;
+}
+
+.description{
+  max-width: 500px;
+  margin: auto;
+}
+
+#map{
+  width: 100vw;
+  height: 100vh;
+}
