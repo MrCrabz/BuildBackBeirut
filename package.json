@@ -1,10 +1,10 @@
 {
-  "name": "now-ui-kit",
-  "description": "Bootstrap 4 Now UI Design",
-  "version": "1.3.0",
-  "homepage": "http://creative-tim.com/product/now-ui-kit",
-  "author": "Creative Tim",
-  "license": "Creative Tim License <www.creative-tim.com/license>",
+  "name": "Build Back Beirut",
+  "description": "This is where Material providers and Architects/Civil engineers can meet to speed up the process of building back beirut to what it was before the explosion and even better",
+  "version": "1.1.0",
+  "homepage": "",
+  "author": "Robin Geagea",
+  "license": "",
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
