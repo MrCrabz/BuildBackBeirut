@@ -7443,8 +7443,30 @@ img {
   animation-iteration-count: infinite;
 }
 
-.goDown i{
+.goDown i, .goUp i{
   font-size: 20px;
+  animation-name: pulse;
+  animation-duration: 1s;
+  animation-fill-mode: backwards;
+  animation-iteration-count: infinite;
+}
+
+.goUp{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 12px 8px 56px -5px rgba(27,58,146,0.2);
+  cursor: pointer;
   animation-name: pulse;
   animation-duration: 1s;
   animation-fill-mode: backwards;
@@ -7454,6 +7476,7 @@ img {
 .progress-bar{
   border-radius: 0.1875rem;
   margin-bottom: 20px;
+  height: 100%;
 }
 
 @keyframes pulse {
