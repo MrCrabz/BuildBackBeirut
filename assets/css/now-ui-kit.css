@@ -7453,7 +7453,7 @@ img {
 
 .goUp{
   position: fixed;
-  bottom: 20px;
+  bottom: 4vh;
   right: 20px;
   z-index: 100;
   width: 50px;
@@ -7477,6 +7477,10 @@ img {
   border-radius: 0.1875rem;
   margin-bottom: 20px;
   height: 100%;
+}
+
+.navbar-half-transparent button.navbar-toggler.navbar-toggler span{
+  background-color: black;
 }
 
 @keyframes pulse {
