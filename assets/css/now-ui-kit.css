@@ -4654,7 +4654,6 @@ Created using IcoMoon - icomoon.io
   background-color: transparent !important;
   box-shadow: none;
   color: #FFFFFF;
-  padding-top: 20px !important;
 }
 
 .navbar.bg-white:not(.navbar-transparent) a:not(.dropdown-item):not(.btn) {
@@ -7407,4 +7406,34 @@ img {
 #map{
   width: 100vw;
   height: 100vh;
+}
+
+.navbar-half-transparent{
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.navbar-half-transparent a{
+  color: black !important;
+}
+
+.goDown{
+  position: absolute;
+  top: 90vh;
+  left: 50vw;
+  z-index: 99999;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 12px 8px 56px -5px rgba(27,58,146,0.2);
+  cursor: pointer;
+}
+
+.goDown i{
+  font-size: 20px;
 }
