@@ -27,6 +27,10 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
+ html, body{
+   scroll-behavior: smooth;
+ }
+
 .bootstrap-switch {
   display: inline-block;
   direction: ltr;
@@ -7334,6 +7338,7 @@ img {
   padding: 50px;
   box-shadow: 12px 8px 56px -5px rgba(27,58,146,0.2);
   border-radius: 16px;
+  overflow: hidden !important;
 }
 
 .card h4{
@@ -7420,7 +7425,7 @@ img {
   position: absolute;
   top: 90vh;
   left: 50vw;
-  z-index: 99999;
+  z-index: 100;
   width: 50px;
   height: 50px;
   text-align: center;
@@ -7432,8 +7437,34 @@ img {
   justify-content: center;
   box-shadow: 12px 8px 56px -5px rgba(27,58,146,0.2);
   cursor: pointer;
+  animation-name: pulse;
+  animation-duration: 1s;
+  animation-fill-mode: backwards;
+  animation-iteration-count: infinite;
 }
 
 .goDown i{
   font-size: 20px;
+  animation-name: pulse;
+  animation-duration: 1s;
+  animation-fill-mode: backwards;
+  animation-iteration-count: infinite;
+}
+
+.progress-bar{
+  border-radius: 0.1875rem;
+  margin-bottom: 20px;
+}
+
+@keyframes pulse {
+  0%{
+    transform: scale3d(1);
+  }
+  50%{
+    transform: scale(1.1);
+  }
+  100%{
+    transform: scale3d(1);
+  }
+
 }
