@@ -15,6 +15,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 -->
+<?php 
+require_once('functions/get.php'); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -151,56 +154,88 @@
       <div class="container">
         <h3 class="title text-center">Covered Buildings</h3>
 
-        <section>
-          <div class="container py-3">
-            <div class="bs-example card horizontal-card">
-              <div class="row no-gutters">
-                <div class="col-sm-4 buildingImage" style="background-image:url('./siteImages/building-Sample.jpeg')"></div>
-                <div class="col-sm-8">
-                  <div class="card-body">
-                    <span class="badge badge-primary btn-outline-dark buildingLabel" type="button">#1344</span>
-                    <span class="badge badge-primary btn-outline-primary buildingLabel" type="button">Critical</span>
-                    <h4 class="card-title">Mar Mkhayel Building</h4>
-                    <span class="header-border-small"></span>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt erat at diam rhoncus rhoncus. In malesuada eget risus ac iaculis. Vestibulum augue massa, feugiat ut sapien quis, tristique facilisis quam.</p>
-                    <h5 class="card-title">Progress Status:</h5>
-                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                    <span class="progress-value">25%</span>
-                    </div>
-                    <a href="#" class="btn btn-primary">View Site</a>
-                    <a href="#" class="btn btn-primary">Donate</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <?php
+        //initiation for adding the total of each material material 
+          $totalMaterial1Needed=0;
+          $totalMaterial1Acquired=0;
+          $totalMaterial2Needed=0;
+          $totalMaterial2Acquired=0;
+          $totalMaterial3Needed=0;
+          $totalMaterial3Acquired=0;
+          $totalMaterial4Needed=0;
+          $totalMaterial4Acquired=0;
+          $totalMaterial5Needed=0;
+          $totalMaterial5Acquired=0;
+          $totalMaterial6Needed=0;
+          $totalMaterial6Acquired=0;
 
-        <section>
-          <div class="container py-3">
-            <div class="bs-example card horizontal-card">
-              <div class="row no-gutters">
-                <div class="col-sm-4 buildingImage" style="background-image:url('./siteImages/building-Sample.jpeg')"></div>
-                <div class="col-sm-8">
-                  <div class="card-body">
-                    <span class="badge badge-primary btn-outline-dark buildingLabel" type="button">#1344</span>
-                    <span class="badge badge-primary btn-outline-primary buildingLabel" type="button">Critical</span>
-                    <h4 class="card-title">Mar Mkhayel Building</h4>
-                    <span class="header-border-small"></span>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt erat at diam rhoncus rhoncus. In malesuada eget risus ac iaculis. Vestibulum augue massa, feugiat ut sapien quis, tristique facilisis quam.</p>
-                    <h5 class="card-title">Progress Status:</h5>
-                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                    <span class="progress-value">25%</span>
-                    </div>
-                    <a href="#" class="btn btn-primary">View Site</a>
-                    <a href="#" class="btn btn-primary">Donate</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+          for($i=0;$i<count($data1);$i++){
+            $material1a=$data1[$i]["material_1_acquired"];
+            $material1n=$data1[$i]["material_1_needed"];
+            $material2a=$data1[$i]["material_2_acquired"];
+            $material2n=$data1[$i]["material_2_needed"];
+            $material3a=$data1[$i]["material_3_acquired"];
+            $material3n=$data1[$i]["material_3_needed"];
+            $material4a=$data1[$i]["material_4_acquired"];
+            $material4n=$data1[$i]["material_4_needed"];
+            $material5a=$data1[$i]["material_5_acquired"];
+            $material5n=$data1[$i]["material_5_needed"];
+            $material6a=$data1[$i]["material_6_acquired"];
+            $material6n=$data1[$i]["material_6_needed"];
+            $progress=($material1a/$material1n)+($material2a/$material2n)+($material3a/$material3n)+($material4a/$material4n)+($material5a/$material5n)+($material6a/$material6n);
+            $progressPercentage=floor(($progress/6)*100);
 
+            //adding the total of exh material needed
+            $totalMaterial1Needed=$totalMaterial1Needed+$material1n;
+            $totalMaterial1Acquired=$totalMaterial1Acquired+$material1a;
+            $totalMaterial2Needed=$totalMaterial2Needed+$material2n;
+            $totalMaterial2Acquired=$totalMaterial2Acquired+$material2a;
+            $totalMaterial3Needed=$totalMaterial3Needed+$material3n;
+            $totalMaterial3Acquired=$totalMaterial3Acquired+$material3a;
+            $totalMaterial4Needed=$totalMaterial4Needed+$material4n;
+            $totalMaterial4Acquired=$totalMaterial4Acquired+$material4a;
+            $totalMaterial5Needed=$totalMaterial5Needed+$material5n;
+            $totalMaterial5Acquired=$totalMaterial5Acquired+$material5a;
+            $totalMaterial6Needed=$totalMaterial6Needed+$material6n;
+            $totalMaterial6Acquired=$totalMaterial6Acquired+$material6a;
+            
+
+
+            echo "
+            <section>
+                <div class='container py-3'>
+                    <div class='bs-example card horizontal-card'>
+                        <div class='row no-gutters'>
+                            <div class='col-sm-4 buildingImage' style='background-image:url(./siteImages/building-Sample.jpeg)'></div>
+                            <div class='col-sm-8'>
+                                <div class='card-body'>
+                                    <span class='badge badge-primary btn-outline-dark buildingLabel' type='button'>#". $data1[$i]["property_id"] ."</span>
+                                    <span class='badge badge-primary btn-outline-primary buildingLabel' type='button'>Critical</span>
+                                    <h4 class='card-title'>". $data1[$i]["property_name"] ."</h4>
+                                    <span class='header-border-small'></span>
+                                    <p class='card-text'>". $data1[$i]["property_description"] ."</p>
+                                    <h5 class='card-title'>Progress Status:</h5>
+                                    <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $progressPercentage ."%;'>
+                                        <span class='progress-value'>". $progressPercentage ."%</span>
+                                    </div>
+                                    <a href='/listing?id=". $data1[$i]["property_id"] ."' class='btn btn-primary'>View Site</a>
+                                    <a href='#' class='btn btn-primary'>Donate</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            ";
+          }
+          //percentages of each material total acquired
+          $percentageMaterial1 = floor($totalMaterial1Acquired / $totalMaterial1Needed * 100);
+          $percentageMaterial2 = floor($totalMaterial2Acquired / $totalMaterial2Needed * 100);
+          $percentageMaterial3 = floor($totalMaterial3Acquired / $totalMaterial3Needed * 100);
+          $percentageMaterial4 = floor($totalMaterial4Acquired / $totalMaterial4Needed * 100);
+          $percentageMaterial5 = floor($totalMaterial5Acquired / $totalMaterial5Needed * 100);
+          $percentageMaterial6 = floor($totalMaterial6Acquired / $totalMaterial6Needed * 100);          
+          ?>             
 
       </div>
     </div>
@@ -219,12 +254,16 @@
               <h4>Wood</h4>
               <span class="header-border-small"></span>
               <div class="progress-container">
-                <span class="progress-badge">Goal: 9999 planks</span>
-                <div class="progress">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                    <span class="progress-value">25%</span>
-                  </div>
-                </div>
+                <?php
+                  echo "
+                    <span class='progress-badge'>Goal: ". $totalMaterial1Needed ." planks</span>
+                    <div class='progress'>
+                      <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width:". $percentageMaterial1 ."%;'>
+                        <span class='progress-value'>". $percentageMaterial1 ."%</span>
+                      </div>
+                    </div>
+                  ";
+                ?>
               </div>
               <a href="#" class="btn btn-primary">Donate</a>
             </div>
@@ -235,12 +274,16 @@
               <h4>Doors</h4>
               <span class="header-border-small"></span>
               <div class="progress-container">
-                <span class="progress-badge">Goal: 9999 Door</span>
-                <div class="progress">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                    <span class="progress-value">25%</span>
-                  </div>
-                </div>
+                <?php
+                    echo "
+                      <span class='progress-badge'>Goal: ". $totalMaterial2Needed ." doors</span>
+                      <div class='progress'>
+                        <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width:". $percentageMaterial2 ."%;'>
+                          <span class='progress-value'>". $percentageMaterial2 ."%</span>
+                        </div>
+                      </div>
+                    ";
+                  ?>
               </div>
               <a href="#" class="btn btn-primary">Donate</a>
             </div>
@@ -251,12 +294,16 @@
               <h4>Window Glass</h4>
               <span class="header-border-small"></span>
               <div class="progress-container">
-                <span class="progress-badge">Goal: 9999 2x2 glass</span>
-                <div class="progress">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                    <span class="progress-value">25%</span>
-                  </div>
-                </div>
+                <?php
+                      echo "
+                        <span class='progress-badge'>Goal: ". $totalMaterial3Needed ." 2x2 glass</span>
+                        <div class='progress'>
+                          <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width:". $percentageMaterial3 ."%;'>
+                            <span class='progress-value'>". $percentageMaterial3 ."%</span>
+                          </div>
+                        </div>
+                      ";
+                    ?>
               </div>
               <a href="#" class="btn btn-primary">Donate</a>
             </div>
@@ -267,12 +314,16 @@
               <h4>Aluminum Frames</h4>
               <span class="header-border-small"></span>
               <div class="progress-container">
-                <span class="progress-badge">Goal: 9999 frame</span>
-                <div class="progress">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                    <span class="progress-value">25%</span>
-                  </div>
-                </div>
+              <?php
+                    echo "
+                      <span class='progress-badge'>Goal: ". $totalMaterial4Needed ." frames</span>
+                      <div class='progress'>
+                        <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width:". $percentageMaterial4 ."%;'>
+                          <span class='progress-value'>". $percentageMaterial4 ."%</span>
+                        </div>
+                      </div>
+                    ";
+                  ?>
               </div>
               <a href="#" class="btn btn-primary">Donate</a>
             </div>
@@ -283,12 +334,16 @@
               <h4>Locks & Frames</h4>
               <span class="header-border-small"></span>
               <div class="progress-container">
-                <span class="progress-badge">Goal: 9999 Lock</span>
-                <div class="progress">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-                    <span class="progress-value">50%</span>
-                  </div>
-                </div>
+              <?php
+                    echo "
+                      <span class='progress-badge'>Goal: ". $totalMaterial5Needed ." lock</span>
+                      <div class='progress'>
+                        <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width:". $percentageMaterial5 ."%;'>
+                          <span class='progress-value'>". $percentageMaterial5 ."%</span>
+                        </div>
+                      </div>
+                    ";
+                  ?>
               </div>
               <a href="#" class="btn btn-primary">Donate</a>
             </div>
@@ -299,12 +354,16 @@
               <h4>Cement</h4>
               <span class="header-border-small"></span>
               <div class="progress-container">
-                <span class="progress-badge">Goal: 9999 Bag</span>
-                <div class="progress">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                    <span class="progress-value">25%</span>
-                  </div>
-                </div>
+              <?php
+                    echo "
+                      <span class='progress-badge'>Goal: ". $totalMaterial6Needed ." bags</span>
+                      <div class='progress'>
+                        <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width:". $percentageMaterial6 ."%;'>
+                          <span class='progress-value'>". $percentageMaterial6 ."%</span>
+                        </div>
+                      </div>
+                    ";
+                  ?>
               </div>
               <a href="#" class="btn btn-primary">Donate</a>
             </div>
