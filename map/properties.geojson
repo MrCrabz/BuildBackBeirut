@@ -1,2 +1,1 @@
-{type:'FeatureCollection',features:[{type:'Feature',geometry:{type:'Point',coordinates:[35.5099,33]},properties:{title:'Gemmayze Holding',description:'3'}},
-{type:'Feature',geometry:{type:'Point',coordinates:[35.5107,33.8952]},properties:{title:'Mar Mkhayel Residence',description:'4'}},]}
+{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[35.5099,33]},"properties":{"title":"Gemmayze Holding","description":"3"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[35.5107,33.8952]},"properties":{"title":"Mar Mkhayel Residence","description":"4"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[33.8972,35.5117]},"properties":{"title":"Gemmayze building","description":"5"}}]}

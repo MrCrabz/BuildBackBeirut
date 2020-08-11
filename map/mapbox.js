@@ -8,41 +8,18 @@ var map = new mapboxgl.Map({
   });
 
 
-  var geojson = {
-    type: 'FeatureCollection',
-    features: [{
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [35.5099, 33.8962]
-      },
-      properties: {
-        title: 'Gemmayze Holding',
-        description: '#3'
-      }
-    },
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [35.5107, 33.8952]
-      },
-      properties: {
-        title: 'Mar Mkhayel Residence',
-        description: '#4'
-      }
-    }]
-  };
-
-  console.log(geojson);
-
   var markersList = {
            "async": true,
            "url": "./map/properties.geojson",
+           "type": "json",
            "method": "GET"
          }
 
          $.ajax(markersList).done(function (response) {
+
+           var geojson = JSON.parse(response);
+
+           console.log(geojson);
 
 
              geojson.features.forEach(function(marker) {
@@ -64,6 +41,6 @@ var map = new mapboxgl.Map({
                  .addTo(map);
              });
 
-             console.log(geojson);
+
 
          });

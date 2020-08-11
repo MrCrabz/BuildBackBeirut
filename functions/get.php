@@ -21,12 +21,13 @@ $data = json_encode($rows);
 
 $data1 = json_decode($data,true);
 
-$s="{type:'FeatureCollection',features:[";
+$s="{\"type\":\"FeatureCollection\",\"features\":[";
 
 for($i=0;$i<count($data1);$i++){
-        $s=$s."{type:'Feature',geometry:{type:'Point',coordinates:[". $data1[$i]["latitude"] .",". $data1[$i]["longitude"] ."]},properties:{title:'". $data1[$i]["property_name"] ."',description:'". $data1[$i]["property_id"] ."'}},";
-    }
+  $s=$s."{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[". $data1[$i]["latitude"] .",". $data1[$i]["longitude"] ."]},\"properties\":{\"title\":\"". $data1[$i]["property_name"] ."\",\"description\":\"". $data1[$i]["property_id"] ."\"}},";
+  }
   $s[strlen($s)-1]="]";
   $s[strlen($s)]="}";
 
+file_put_contents('./map/properties.geojson', $s);
 ?>
