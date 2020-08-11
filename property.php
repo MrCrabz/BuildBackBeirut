@@ -1,3 +1,33 @@
+<?php
+require_once('functions/db.php');
+$property_id = $_GET["id"];
+$property_listing_data = file_get_contents('property_listing.json');
+$jdata = json_decode($property_listing_data, true);
+$m1n=$jdata[$property_id]["material_1_needed"];
+$m1a=$jdata[$property_id]["material_1_acquired"];
+$m2n=$jdata[$property_id]["material_2_needed"];
+$m2a=$jdata[$property_id]["material_2_acquired"];
+$m3n=$jdata[$property_id]["material_3_needed"];
+$m3a=$jdata[$property_id]["material_3_acquired"];
+$m4n=$jdata[$property_id]["material_4_needed"];
+$m4a=$jdata[$property_id]["material_4_acquired"];
+$m5n=$jdata[$property_id]["material_5_needed"];
+$m5a=$jdata[$property_id]["material_5_acquired"];
+$m6n=$jdata[$property_id]["material_6_needed"];
+$m6a=$jdata[$property_id]["material_6_acquired"];
+
+$siteDesc = $jdata[$property_id]["property_description"];
+
+$m1p=floor(($m1a/$m1n)*100);
+$m2p=floor(($m2a/$m2n)*100);
+$m3p=floor(($m3a/$m3n)*100);
+$m4p=floor(($m4a/$m4n)*100);
+$m5p=floor(($m5a/$m5n)*100);
+$m6p=floor(($m6a/$m6n)*100);
+
+$totalPercentage = floor(($m1p+$m2p+$m3p+$m4p+$m5p+$m6p)/6);
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +38,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Property
+    <?php echo $jdata[$property_id]["property_name"] ?>
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -19,12 +49,9 @@
   <link href="assets/css/now-ui-kit.css?v=1.3.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="assets/demo/demo.css" rel="stylesheet" />
-
   <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
-
 </head>
-
 <body class="profile-page sidebar-collapse singleProperty">
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent " color-on-scroll="400">
@@ -59,17 +86,17 @@
       <div class="collapse navbar-collapse justify-content-end" id="navigation" data-nav-image="./assets/img/blurred-image-1.jpg">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#coveredBuildings" onclick="scrolltoDown()">
+            <a class="nav-link" href="index.php#coveredBuildings" onclick="scrolltoDown()">
               <p>Sites Covered</p>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#materialsNeeded" onclick="scrolltoDown()">
+            <a class="nav-link" href="index.php#materialsNeeded" onclick="scrolltoDown()">
               <p>Materials Needed</p>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)" onclick="scrolltoDown()">
+            <a class="nav-link" href="index.php#theTeam" onclick="scrolltoDown()">
               <p>The Team</p>
             </a>
           </li>
@@ -92,13 +119,16 @@
         <!-- <div class="photo-container">
           <img src="./assets/img/ryan.jpg" alt="">
         </div> -->
-        <h3 class="title">Mar Mkhayel Residence</h3>
-        <p class="category">Site Progress:</p>
-        <div class="text-cemter progressProperty">
-          <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-            <span class="progress-value">25%</span>
-          </div>
-        </div>
+        <?php
+        echo "<h3 class='title'>".$jdata[$property_id]["property_name"]."</h3>
+              <p class='category'>Site Progress:</p>
+              <div class='text-cemter progressProperty'>
+                <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $totalPercentage ."%;'>
+                  <span class='progress-value'>". $totalPercentage ."%</span>
+                </div>
+              </div>
+        ";
+        ?>
         <!-- <div class="content">
           <div class="social-description">
             <h2>26</h2>
@@ -129,62 +159,86 @@
         <div class="row">
           <div class="col-lg-6 col-xs-12">
             <h3 class="title text-left">About The Site</h3>
-            <h5 class="description text-left">An artist of considerable range, Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. An artist of considerable range.</h5>
+            <h5 class="description text-left">
+              <?php echo $siteDesc ?>
+            </h5>
             <div id='mapSite' style='width: 100%; height: 300px;'></div>
           </div>
           <div class="col-lg-6 col-xs-12">
             <h3 class="title text-left">Materials Needed</h3>
             <div class="progress-container">
-              <span class="progress-badge">Goal: 9999 Bag </span><br>
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                  <span class="progress-value">25%</span>
-                </div>
-              </div>
+              <?php
+                echo "
+                  <span class='progress-badge'>Goal: ". $m1n ." Bag </span><br>
+                  <div class='progress'>
+                    <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $m1p ."%;'>
+                      <span class='progress-value'>". $m1p ."%</span>
+                    </div>
+                  </div>
+                ";
+              ?>
             </div>
             <div class="progress-container">
-              <span class="progress-badge">Goal: 9999 Bag </span><br>
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                  <span class="progress-value">25%</span>
-                </div>
-              </div>
+            <?php
+                echo "
+                  <span class='progress-badge'>Goal: ". $m2n ." Bag </span><br>
+                  <div class='progress'>
+                    <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $m2p ."%;'>
+                      <span class='progress-value'>". $m2p ."%</span>
+                    </div>
+                  </div>
+                ";
+              ?>
             </div>
             <div class="progress-container">
-              <span class="progress-badge">Goal: 9999 Bag </span><br>
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                  <span class="progress-value">25%</span>
-                </div>
-              </div>
+            <?php
+                echo "
+                  <span class='progress-badge'>Goal: ". $m3n ." Bag </span><br>
+                  <div class='progress'>
+                    <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $m3p ."%;'>
+                      <span class='progress-value'>". $m3p ."%</span>
+                    </div>
+                  </div>
+                ";
+              ?>
             </div>
             <div class="progress-container">
-              <span class="progress-badge">Goal: 9999 Bag </span><br>
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                  <span class="progress-value">25%</span>
-                </div>
-              </div>
+            <?php
+                echo "
+                  <span class='progress-badge'>Goal: ". $m4n ." Bag </span><br>
+                  <div class='progress'>
+                    <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $m4p ."%;'>
+                      <span class='progress-value'>". $m4p ."%</span>
+                    </div>
+                  </div>
+                ";
+              ?>
             </div>
             <div class="progress-container">
-              <span class="progress-badge">Goal: 9999 Bag </span><br>
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                  <span class="progress-value">25%</span>
-                </div>
-              </div>
+            <?php
+                echo "
+                  <span class='progress-badge'>Goal: ". $m5n ." Bag </span><br>
+                  <div class='progress'>
+                    <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $m5p ."%;'>
+                      <span class='progress-value'>". $m5p ."%</span>
+                    </div>
+                  </div>
+                ";
+              ?>
             </div>
             <div class="progress-container">
-              <span class="progress-badge">Goal: 9999 Bag </span><br>
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                  <span class="progress-value">25%</span>
-                </div>
-              </div>
-            </div>
+            <?php
+                echo "
+                  <span class='progress-badge'>Goal: ". $m6n ." Bag </span><br>
+                  <div class='progress'>
+                    <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $m6p ."%;'>
+                      <span class='progress-value'>". $m6p ."%</span>
+                    </div>
+                  </div>
+                ";
+              ?>
           </div>
         </div>
-
         <div class="row">
           <div class="col-md-12 ml-auto mr-auto">
             <h3 class="title text-left">Images Of The Site</h3>
@@ -205,7 +259,6 @@
             </div>
           </div>
           <!-- Tab panes -->
-
         </div>
       </div>
     </div>
@@ -253,7 +306,6 @@
   <script src="./assets/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
   <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
   <script src="./assets/js/now-ui-kit.js?v=1.3.0" type="text/javascript"></script>
-
   <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoicm9iaW5nZWFnZWEiLCJhIjoiY2tkbmZ5NnN6MWhnMDJzcm9sOW15NmZlbSJ9.yjhyjQzprYOcVmB4UMri5A';
     var map = new mapboxgl.Map({
@@ -262,14 +314,16 @@
       center: [35.5113866,33.8950144],
       zoom: 17
     });
-
     $(window).scroll(function() {
+
+      if($('.navbar').hasClass('navbar-half-transparent')){
+        $('.navbar').removeClass('navbar-half-transparent');
+        $('.navbar').addClass('navbar-transparent');
+      }
 
       $('.navbar').removeClass('navbar-half-transparent');
       $('.navbar').removeClass('navbar-primary');
       $('.navbar').addClass('navbar-transparent');
-
-
         if ($(this).scrollTop() > 400) {
           $('.navbar').removeClass('navbar-half-transparent');
           $('.navbar').removeClass('navbar-transparent');
@@ -283,5 +337,4 @@
      });
   </script>
 </body>
-
 </html>

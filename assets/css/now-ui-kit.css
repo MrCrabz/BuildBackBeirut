@@ -7479,6 +7479,13 @@ img {
   height: 100%;
 }
 
+.singleProperty .navbar-half-transparent a{
+  color: white !important;
+}
+.singleProperty .navbar-half-transparent .navbar-toggler span{
+  background-color: white !important;
+}
+
 .singleProperty .progressProperty{
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 0.1875rem;

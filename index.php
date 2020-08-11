@@ -202,7 +202,7 @@ require_once('functions/get.php');
                                     <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $progressPercentage ."%;'>
                                         <span class='progress-value'>". $progressPercentage ."%</span>
                                     </div>
-                                    <a href='/listing?id=". $data1[$i]["property_id"] ."' class='btn btn-primary'>View Site</a>
+                                    <a href='./property.php?id=". $data1[$i]["property_id"] ."' class='btn btn-primary'>View Site</a>
                                     <a href='#' class='btn btn-primary'>Donate</a>
                                 </div>
                             </div>
