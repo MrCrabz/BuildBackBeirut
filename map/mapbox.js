@@ -34,21 +34,36 @@ var map = new mapboxgl.Map({
     }]
   };
 
-  geojson.features.forEach(function(marker) {
+  console.log(geojson);
 
-    // create a HTML element for each feature
-    var el = document.createElement('div');
-    el.className = 'marker';
+  var markersList = {
+           "async": true,
+           "url": "./map/properties.geojson",
+           "method": "GET"
+         }
 
-    // make a marker for each feature and add to the map
-    new mapboxgl.Marker(el)
-      .setLngLat(marker.geometry.coordinates)
-
-      new mapboxgl.Marker(el)
-      .setLngLat(marker.geometry.coordinates)
-      .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-      .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+         $.ajax(markersList).done(function (response) {
 
 
-      .addTo(map);
-  });
+             geojson.features.forEach(function(marker) {
+
+               // create a HTML element for each feature
+               var el = document.createElement('div');
+               el.className = 'marker';
+
+               // make a marker for each feature and add to the map
+               new mapboxgl.Marker(el)
+                 .setLngLat(marker.geometry.coordinates)
+
+                 new mapboxgl.Marker(el)
+                 .setLngLat(marker.geometry.coordinates)
+                 .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                 .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+
+
+                 .addTo(map);
+             });
+
+             console.log(geojson);
+
+         });
