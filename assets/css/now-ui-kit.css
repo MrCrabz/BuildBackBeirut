@@ -7507,3 +7507,31 @@ img {
   }
 
 }
+
+
+
+/* Markers */
+
+.marker {
+  background-image: url('../img/marker.png');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 12px 8px 56px -5px rgba(27,58,146,0.2) !important;
+}
+
+.marker *{
+  color: black;
+}
+
+.mapboxgl-popup {
+  max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+  text-align: center;
+  color: black;
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+}

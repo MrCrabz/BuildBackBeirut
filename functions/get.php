@@ -21,18 +21,5 @@ $data = json_encode($rows);
 
 $data1 = json_decode($data,true);
 
-// $material1a=$data1[0]["material_1_acquired"];
-// $material1n=$data1[0]["material_1_needed"];
-
-// print($material1a);
-// print($material1n);
-
-// $r=$material1a/$material1n;
-// echo"<br>";
-// print($r);
-
-// echo count($data1);
-// print_r($data1);
-// print($data1[0]["property_id"]);
 
 ?>
