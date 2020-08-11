@@ -19,6 +19,9 @@ var map = new mapboxgl.Map({
 
            var geojson = JSON.parse(response);
 
+           var geojsonText = JSON.stringify(geojson);
+
+           console.log(geojsonText);
            console.log(geojson);
 
 
