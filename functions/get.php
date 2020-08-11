@@ -24,7 +24,37 @@ $data1 = json_decode($data,true);
 $s="{\"type\":\"FeatureCollection\",\"features\":[";
 
 for($i=0;$i<count($data1);$i++){
-  $s=$s."{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[". $data1[$i]["latitude"] .",". $data1[$i]["longitude"] ."]},\"properties\":{\"title\":\"". $data1[$i]["property_name"] ."\",\"description\":\"". $data1[$i]["property_id"] ."\"}},";
+
+  $m1n = $data1[$i]["material_1_needed"];
+  $m1a=$data1[$i]["material_1_acquired"];
+  $m2n=$data1[$i]["material_2_needed"];
+  $m2a=$data1[$i]["material_2_acquired"];
+  $m3n=$data1[$i]["material_3_needed"];
+  $m3a=$data1[$i]["material_3_acquired"];
+  $m4n=$data1[$i]["material_4_needed"];
+  $m4a=$data1[$i]["material_4_acquired"];
+  $m5n=$data1[$i]["material_5_needed"];
+  $m5a=$data1[$i]["material_5_acquired"];
+  $m6n=$data1[$i]["material_6_needed"];
+  $m6a=$data1[$i]["material_6_acquired"];
+
+  $m1p=floor(($m1a/$m1n)*100);
+  $m2p=floor(($m2a/$m2n)*100);
+  $m3p=floor(($m3a/$m3n)*100);
+  $m4p=floor(($m4a/$m4n)*100);
+  $m5p=floor(($m5a/$m5n)*100);
+  $m6p=floor(($m6a/$m6n)*100);
+
+  $totalPercentage = floor(($m1p+$m2p+$m3p+$m4p+$m5p+$m6p)/6);
+
+  $s=$s."{
+    \"type\":\"Feature\",
+    \"geometry\":{\"type\":\"Point\",
+      \"coordinates\":[". $data1[$i]["latitude"] .",
+      ". $data1[$i]["longitude"] ."]},
+      \"properties\":{\"id\":\"". $data1[$i]["property_id"] ."\",
+        \"percentageCompleted\":\"". $totalPercentage ."\",
+        \"description\":\"". $data1[$i]["property_id"] ."\"}},";
   }
   $s[strlen($s)-1]="]";
   $s[strlen($s)]="}";

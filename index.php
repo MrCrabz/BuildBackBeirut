@@ -199,7 +199,7 @@ require_once('functions/get.php');
                                     <span class='header-border-small'></span>
                                     <p class='card-text'>". $data1[$i]["property_description"] ."</p>
                                     <h5 class='card-title'>Progress Status:</h5>
-                                    <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $progressPercentage ."%;'>
+                                    <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $progressPercentage ."%'>
                                         <span class='progress-value'>". $progressPercentage ."%</span>
                                     </div>
                                     <a href='./property.php?id=". $data1[$i]["property_id"] ."' class='btn btn-primary'>View Site</a>

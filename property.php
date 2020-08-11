@@ -74,7 +74,7 @@ $totalPercentage = floor(($m1p+$m2p+$m3p+$m4p+$m5p+$m6p)/6);
         </div>
       </div> -->
       <div class="navbar-translate">
-        <a class="navbar-brand" href="#map" rel="tooltip" title="Coded with love for our brothers and sisters in Beirut" data-placement="bottom" target="_blank">
+        <a class="navbar-brand" href="index.php#map" rel="tooltip" title="Coded with love for our brothers and sisters in Beirut" data-placement="bottom">
           Rebuild Beirut
         </a>
         <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
