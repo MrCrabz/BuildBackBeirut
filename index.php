@@ -135,7 +135,7 @@ require_once('functions/get.php');
 
     </div>
 
-    <div class="section section-basic">
+    <div class="section section-basic" id="coveredBuildings">
       <div class="container">
         <h3 class="title text-center">Covered Buildings</h3>
         <?php
@@ -226,7 +226,7 @@ require_once('functions/get.php');
     </div>
 
 
-    <div class="section section-basic" id="MaterialsNeeded">
+    <div class="section section-basic" id="materialsNeeded">
       <div class="container">
         <h3 class="title text-center">Materials Needed</h3>
         <h5 class="description text-center">All the materials donated below will be used buy our engineers and architects to renovate all the listed sites.</h5>
