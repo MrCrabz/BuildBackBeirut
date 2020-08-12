@@ -7587,3 +7587,32 @@ img {
   background: linear-gradient(0deg, rgba(44, 44, 44, 0.2), rgba(224, 23, 3, 0.6)) !important;
   z-index: 1;
 }
+
+
+/* Logo */
+
+.navbar-brand svg{
+  height: 35px;
+  width: auto;
+}
+
+.navbar-half-transparent .navbar-brand svg *{
+  fill: black !important;
+}
+
+.navbar p{
+  font-size: 10px !important;
+  font-weight: 600;
+}
+
+.navbar.bg-primary p, .navbar.bg-primary i{
+  color: #993636 !important;
+}
+
+.navbar.navbar-half-transparent p, .navbar.navbar-half-transparent i{
+  color: #000 !important;
+}
+
+.sidebar-collapse .navbar-collapse:before{
+  background: white !important;
+}
