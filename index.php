@@ -203,7 +203,7 @@ require_once('functions/get.php');
                                         <span class='progress-value'>". $progressPercentage ."%</span>
                                     </div>
                                     <a href='./property.php?id=". $data1[$i]["property_id"] ."' class='btn btn-primary'>View Site</a>
-                                    <button class='btn btn-primary' data-toggle='modal' data-target='#propertyDonation'>
+                                    <button class='btn btn-primary' data-toggle='modal' data-target='#propertyDonation' data-property='?propertyId=". $data1[$i]["property_id"] ."' onClick='addpropertyID(". $data1[$i]["property_id"] .")'>
                                       Donate
                                     </button>
                                 </div>
@@ -252,7 +252,7 @@ require_once('functions/get.php');
                   ";
                 ?>
               </div>
-              <button class='btn btn-primary' data-toggle='modal' data-target='#MaterialForm'>
+              <button class='btn btn-primary' data-toggle='modal' data-target='#MaterialForm'   onClick="getMaterialDonation('Wood')">
                 Donate
               </button>
             </div>
@@ -274,7 +274,7 @@ require_once('functions/get.php');
                     ";
                   ?>
               </div>
-              <button class='btn btn-primary' data-toggle='modal' data-target='#MaterialForm'>
+              <button class='btn btn-primary' data-toggle='modal' data-target='#MaterialForm'   onClick="getMaterialDonation('Doors')">
                 Donate
               </button>
             </div>
@@ -296,7 +296,7 @@ require_once('functions/get.php');
                       ";
                     ?>
               </div>
-              <button class='btn btn-primary' data-toggle='modal' data-target='#MaterialForm'>
+              <button class='btn btn-primary' data-toggle='modal' data-target='#MaterialForm'   onClick="getMaterialDonation('windowGlass')">
                 Donate
               </button>
             </div>
@@ -318,7 +318,7 @@ require_once('functions/get.php');
                     ";
                   ?>
               </div>
-              <button class='btn btn-primary' data-toggle='modal' data-target='#MaterialForm'>
+              <button class='btn btn-primary' data-toggle='modal' data-target='#MaterialForm'  onClick="getMaterialDonation('aluminumFrames')">
                 Donate
               </button>
             </div>
@@ -340,7 +340,7 @@ require_once('functions/get.php');
                     ";
                   ?>
               </div>
-              <button class='btn btn-primary' data-toggle='modal' data-target='#MaterialForm'>
+              <button class='btn btn-primary' data-toggle='modal' data-target='#MaterialForm'  onClick="getMaterialDonation('LocksandFrames')">
                 Donate
               </button>
             </div>
@@ -362,7 +362,7 @@ require_once('functions/get.php');
                     ";
                   ?>
               </div>
-              <button class='btn btn-primary' data-toggle='modal' data-target='#MaterialForm'>
+              <button class='btn btn-primary' data-toggle='modal' data-target='#MaterialForm' onClick="getMaterialDonation('Cement')">
                 Donate
               </button>
             </div>
@@ -1105,6 +1105,26 @@ require_once('functions/get.php');
         $("html, body").animate({ scrollTop: "0" });
 
       }
+
+      function addpropertyID(currentPropertyId) {
+           let stateObj = { id: "100" };
+
+           let newURL = "?action=singlePropertyDonation&propertyId=" + currentPropertyId;
+
+           window.history.pushState(stateObj,
+                    "Page 2", newURL);
+       }
+
+       function getMaterialDonation(material) {
+            let stateObj = { id: "100" };
+
+            let newURL = "?action=singleMatrialDonation&materialNamed=" + material;
+
+            console.log(newURL);
+
+            window.history.pushState(stateObj,
+                     "Page 2", newURL);
+        }
 
     $(document).ready(function() {
 
