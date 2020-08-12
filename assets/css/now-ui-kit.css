@@ -7613,6 +7613,14 @@ img {
   color: #000 !important;
 }
 
+.navbar.navbar-transparent .navbar-brand svg *{
+  fill: #fff !important;
+}
+
+.navbar.navbar-transparent p, .navbar.navbar-transparent i{
+  color: #fff !important;
+}
+
 .sidebar-collapse .navbar-collapse:before{
   background: white !important;
 }
