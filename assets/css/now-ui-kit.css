@@ -6537,9 +6537,7 @@ img {
     margin: 0 1rem;
     margin-top: 0.3125rem;
   }
-  .sidebar-collapse .navbar-collapse .navbar-nav:not(.navbar-logo) .nav-link:not(.btn) {
-    color: #FFFFFF !important;
-  }
+
   .sidebar-collapse .navbar-collapse .dropdown-menu .dropdown-item {
     color: #FFFFFF;
   }
@@ -7256,6 +7254,10 @@ img {
 }
 
 @media screen and (max-width: 768px) {
+  .navbar.navbar-transparent p, .navbar.navbar-transparent i{
+      color: black !important;
+  }
+
   .section-images {
     height: 300px;
     max-height: 300px;
@@ -7521,6 +7523,15 @@ img {
   cursor: pointer;
 }
 
+.singleProperty .marker {
+  background-image: url('../img/marker-light.png');
+  background-size: cover;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 .marker *{
   color: black;
 }
@@ -7623,4 +7634,66 @@ img {
 
 .sidebar-collapse .navbar-collapse:before{
   background: white !important;
+}
+
+.singleProperty .title{
+  margin-top: 0px !important;
+  padding-top: 0px !important
+}
+
+.progress-container.Disabled, .accordion-toggle.Disabled{
+  display: none ;
+}
+
+.progress-container.Completed .progress-bar{
+  background-color: rgb(74, 170, 66) !important;
+}
+
+
+/* accordion */
+
+.accordion-toggle{
+  width: 100%;
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+.accordion-toggle.disabled{
+  display: none;
+}
+
+.accordion-toggle:hover{
+  text-decoration: none;
+}
+
+.accordion-toggle i{
+  float: right;
+}
+
+.listingMap{
+  width: 100%;
+  height: 50vh;
+}
+
+.additionalButton{
+  padding: 15px 17px!important;
+}
+
+.page-header{
+  position: relative !important;
+}
+
+.page-header>.container{
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-40%) translateX(-50%);
+  padding-bottom: 0px !important;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar.navbar-transparent p, .navbar.navbar-transparent i{
+      color: black !important;
+  }
 }
