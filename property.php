@@ -2,6 +2,31 @@
   require_once('functions/db.php');
 
   $property_id = $_GET["id"];
+
+  if(!empty($_POST["full_name"])){
+    $fullname=$_POST["full_name"];
+    $email=$_POST["email"];
+    $mobilenumber=$_POST["mobile_number"];
+    $country=$_POST["country"];
+    $material_quantity=$_POST["material_quantity"];
+
+    $sql = "INSERT INTO propertydonation (property_id, `name`, phone, email, `location`, `date`, donation_status) VALUES ('$property_id', '$fullname', '$mobilenumber', '$email', '$country', NOW(), 1)";
+    mysqli_query($conn, $sql);
+
+    $sql = "SELECT * FROM propertydonation ORDER BY property_donation_id DESC LIMIT 1";
+    $query_result = mysqli_query($conn, $sql);
+    while($record = mysqli_fetch_assoc($query_result)) {
+      $latest[] = $record;
+    }
+    $property_donation_id=$latest[0]["property_donation_id"];
+    foreach($material_quantity as $mat_id => $mat_quantity){
+      $sql = "INSERT INTO multipropertydonation (material_id, property_donation_id, quantity) VALUES ('$mat_id','$property_donation_id','$mat_quantity')";
+      mysqli_query($conn, $sql);
+
+    }
+      // print_r($material_quantity);
+
+  }
   //QUERY TO GET THIS SPECIFIC PROPERTY DATA
     $query = "SELECT * FROM property WHERE property_id = '$property_id' ";
     $query_result = mysqli_query($conn, $query);
@@ -13,6 +38,7 @@
     $property_description=$property_data["property_description"];
     $property_longitude=$property_data["longitude"];
     $property_latitude=$property_data["latitude"];
+    $property_severity=$property_data["severity"];
 
   //QUERY TO GET CATEGORY LISTING WITH SUM N A
     $query = "SELECT p.property_id, c.category_id, c.category_name,
@@ -131,8 +157,15 @@
           $suma+=$category_listing_data[$i]["suma"];
         }
         $percentage_single_property = floor(($suma/$sumn)*100);
+        switch($property_severity){
+          case 1:
+            $propertySituation = "Moderate";
+          break;
+          case 2:
+            $propertySituation = "Critical";
+          break;
+        }
 
-        $propertySituation = "Critical";
 
         echo "<h3 class='title'>" . "<div class='singlePropertyId singlePropertyMeta'>#" . $property_id . "</div><div class='singlePropertySituation singlePropertyMeta'>" . $propertySituation . "</div><br>" .$property_name . "</h3>
               <p class='category'>Site Progress:</p>
@@ -353,95 +386,101 @@
 
     <div id='mapSite' class="listingMap" style='width: 100%; height: 60vh;'></div>
 
-
-    <div class="modal fade" id="propertyDonation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header justify-content-center">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-              <i class="now-ui-icons ui-1_simple-remove"></i>
-            </button>
-            <h4 class="title title-up">Donate for #000</h4>
-          </div>
-          <div class="modal-body">
-            <h4>Your Info</h4>
-            <span class="header-border-small"></span>
-            <div class="input-group no-border">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="now-ui-icons users_single-02"></i>
-                </span>
+    <?php
+      echo"
+      <form action='property.php?id=".$property_id."' method='POST'>
+      ";
+      ?>
+      <div class="modal fade" id="propertyDonation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header justify-content-center">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <i class="now-ui-icons ui-1_simple-remove"></i>
+              </button>
+              <h4 class="title title-up">Donate for #<?php echo $property_id ?></h4>
+            </div>
+            <div class="modal-body">
+              <h4>Your Info</h4>
+              <span class="header-border-small"></span>
+              <div class="input-group no-border">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="now-ui-icons users_single-02"></i>
+                  </span>
+                </div>
+                <input type="text" placeholder="Full Name" class="form-control" name="full_name"/>
               </div>
-              <input type="text" placeholder="Full Name" class="form-control" />
-            </div>
-            <div class="input-group no-border">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="now-ui-icons ui-1_email-85"></i>
-                </span>
+              <div class="input-group no-border">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="now-ui-icons ui-1_email-85"></i>
+                  </span>
+                </div>
+                <input type="email" placeholder="Email Address" class="form-control" name="email"/>
               </div>
-              <input type="email" placeholder="Email Address" class="form-control" />
-            </div>
-            <div class="input-group no-border">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="now-ui-icons tech_mobile"></i>
-                </span>
+              <div class="input-group no-border">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="now-ui-icons tech_mobile"></i>
+                  </span>
+                </div>
+                <input type="tel" placeholder="Mobile Number" class="form-control" name="mobile_number"/>
               </div>
-              <input type="tel" placeholder="Mobile Number" class="form-control" />
-            </div>
-            <div class="input-group no-border">
-            <?php
-                require("functions/countries.html");
-                ?>
-            </div>
+              <div class="input-group no-border">
+              <?php
+                  require("functions/countries.html");
+                  ?>
+              </div>
 
 
-            <h4>Materials</h4>
-            <span class="header-border-small"></span>
-            <?php
-              for($i=0;$i<count($category_listing_data);$i++){
-                $category_id=$category_listing_data[$i]["category_id"];
-                $category_name=$category_listing_data[$i]["category_name"];
+              <h4>Materials</h4>
+              <span class="header-border-small"></span>
+              <?php
+                for($i=0;$i<count($category_listing_data);$i++){
+                  $category_id=$category_listing_data[$i]["category_id"];
+                  $category_name=$category_listing_data[$i]["category_name"];
 
-                $query = "SELECT p.property_id,c.category_id, c.category_name, m.material_id, m.material_name, n.quantity as needed_quantity, a.quantity as aquired_quantity FROM property p, materialcategory c, material m, materialneeded n, materialaquired a WHERE c.category_id=m.material_category AND m.material_id=n.material_id AND m.material_id=a.material_id AND p.property_id=n.property_id AND p.property_id=a.property_id AND n.quantity<>0 AND p.property_id='$property_id' AND c.category_id='$category_id'";
-                  $query_result = mysqli_query($conn, $query);
-                  while($record = mysqli_fetch_assoc($query_result)) {
-                      $material_property_data[] = $record;
-                  }
-                  echo"
-                  <div class='row'>
-                    <div class='col-6'>
-                      <h5>".$category_name."</h5>
-                      ";
-                      for($j=0;$j<count($material_property_data);$j++){
-                        $material_name=$material_property_data[$j]["material_name"];
-                        $needed_quantity=$material_property_data[$j]["needed_quantity"];
-                        $aquired_quantity=$material_property_data[$j]["aquired_quantity"];
-                        echo "
-                        <h6>".$material_name."</h6>
-                        <div class='input-group no-border'>
-                          <input type='number' placeholder='".$needed_quantity."' class='form-control' />
-                        </div>
+                  $query = "SELECT p.property_id,c.category_id, c.category_name, m.material_id, m.material_name, n.quantity as needed_quantity, a.quantity as aquired_quantity FROM property p, materialcategory c, material m, materialneeded n, materialaquired a WHERE c.category_id=m.material_category AND m.material_id=n.material_id AND m.material_id=a.material_id AND p.property_id=n.property_id AND p.property_id=a.property_id AND n.quantity<>0 AND p.property_id='$property_id' AND c.category_id='$category_id'";
+                    $query_result = mysqli_query($conn, $query);
+                    while($record = mysqli_fetch_assoc($query_result)) {
+                        $material_property_data[] = $record;
+                    }
+                    echo"
+                    <div class='row'>
+                      <div class='col-6'>
+                        <h5>".$category_name."</h5>
                         ";
-                        }
-                    echo "
+                        for($j=0;$j<count($material_property_data);$j++){
+                          $material_name=$material_property_data[$j]["material_name"];
+                          $needed_quantity=$material_property_data[$j]["needed_quantity"];
+                          $aquired_quantity=$material_property_data[$j]["aquired_quantity"];
+                          echo "
+                          <h6>".$material_name."</h6>
+                          <div class='input-group no-border'>
+                            <input type='number' placeholder='".$needed_quantity."' name='material_quantity[".$material_id."]' class='form-control' />
+                          </div>
+                          ";
+                          }
+                      echo "
+                      </div>
                     </div>
-                  </div>
-                  ";
-                  unset($material_property_data);
-              }
+                    ";
+                    unset($material_property_data);
+                }
 
 
-            ?>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Submit</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              ?>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <input type="submit"></input>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
 
     <div class="goUp" onclick="scrollToUp()">
       <i class="fas fa-long-arrow-alt-up"></i>

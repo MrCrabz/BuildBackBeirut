@@ -143,6 +143,15 @@ require_once('functions/get.php');
           $pld = json_decode($property_listing_data, true);
 
           for($i=0;$i<count($pld);$i++){
+            $severity_id=$pld[$i]["severity"];
+            switch($severity_id){
+              case 1:
+                $severity = "Moderate";
+              break;
+              case 2:
+                $severity = "Critical";
+              break;
+            }
             if($property_progress[$i]["nq"]==0){
               $percentage_single_property=0;
             }else{
@@ -157,7 +166,7 @@ require_once('functions/get.php');
                             <div class='col-sm-8'>
                                 <div class='card-body'>
                                     <span class='badge badge-primary btn-outline-dark buildingLabel' type='button'>#". $pld[$i]["property_id"] ."</span>
-                                    <span class='badge badge-primary btn-outline-primary buildingLabel' type='button'>Critical</span>
+                                    <span class='badge badge-primary btn-outline-primary buildingLabel' type='button'>". $severity ."</span>
                                     <h4 class='card-title'>". $pld[$i]["property_name"] ."</h4>
                                     <span class='header-border-small'></span>
                                     <p class='card-text'>". substr($pld[$i]["property_description"], 0, 250) ."</p>
