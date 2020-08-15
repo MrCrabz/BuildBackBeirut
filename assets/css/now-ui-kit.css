@@ -3191,6 +3191,8 @@ textarea.form-control:active {
   color: #888888;
   font-size: 0.8571em;
   text-transform: uppercase;
+  display: block;
+  max-width: 80%;
 }
 
 .progress-container .progress {
@@ -5699,18 +5701,28 @@ img {
 }
 
 .profile-page .title {
-  text-align: center;
+  text-align: left;
   margin-top: 30px;
+}
+
+.singlePropertyMeta{
+  border: 1px solid white;
+  padding: 0px 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-radius: 8888px;
+  display: inline-block;
+  margin-right: 10px;
 }
 
 .profile-page .description,
 .profile-page .category {
-  text-align: center;
+  text-align: left;
 }
 
 .profile-page h5.description {
   max-width: 700px;
-  margin: 20px auto 75px;
+  margin: 20px auto 30px;
 }
 
 .profile-page .nav-align-center {
@@ -7367,6 +7379,11 @@ img {
   background-repeat: no-repeat;
 }
 
+.singlePropertyListing .progress-container{
+  background-color: rgb(235, 235, 235);
+  border-radius: 0.3rem !important;
+}
+
 .progress-bar{
   background-color: #FF6363 !important;
 }
@@ -7403,6 +7420,10 @@ img {
 
 .allMaterialsNeeded{
   margin-top: 70px;
+}
+
+.allMaterialsNeeded .card{
+  height: 90%;
 }
 
 .description{
@@ -7641,22 +7662,35 @@ img {
   padding-top: 0px !important
 }
 
-.progress-container.Disabled, .accordion-toggle.Disabled{
-  display: none ;
-}
+/* .singleProperty #accordion span.progress-badge{
+  margin-bottom: 10px !important;
+} */
 
 .progress-container.Completed .progress-bar{
   background-color: rgb(74, 170, 66) !important;
 }
 
 
+.propertySection{
+  margin-bottom: 60px;
+}
+
+.sectionTitle{
+  margin-bottom: 50px;
+}
+
+
+
+
 /* accordion */
+
 
 .accordion-toggle{
   width: 100%;
   text-decoration: none;
   color: black;
   display: block;
+  position: relative;
 }
 
 .accordion-toggle.disabled{
@@ -7667,8 +7701,27 @@ img {
   text-decoration: none;
 }
 
+.motherCategoryPercentage {
+  border: 1px solid #FF6363;
+  color: #FF6363;
+  font-size: 14px;
+  padding: 5px 10px;
+  margin-left: 10px;
+  display: inline-block;
+  border-radius: 8888px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.panel-title{
+  position: relative;
+}
+
 .accordion-toggle i{
-  float: right;
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .listingMap{
@@ -7697,3 +7750,69 @@ img {
       color: black !important;
   }
 }
+
+/* Volunteers Module */
+
+.singleVolunteerModule{
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(231, 231, 231);
+  position: relative;
+  padding-top: 20px;
+  display: flex;
+}
+
+.singleVolunteerModule *{
+  display: inline-block;
+  line-height: 50px;
+}
+
+.volunteerName{
+  font-size: 16px;
+  margin: 0px;
+  margin-left: 10px;
+}
+
+.volunteerJob{
+  margin: 0px;
+  margin-left: 20px;
+}
+
+.volunteerNumber{
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  text-align: center;
+  line-height: 0px !important;
+  transform: translateY(-50%);
+}
+
+.volunteerNumber i{
+  line-height: 40px !important;
+  text-align: center;
+  font-size: 20px;
+  color: white !important;
+  background-color: #FF6363;
+  border-radius: 50%;
+  width: 40px;
+  display: inline-block;
+  background-size: 50px;
+  border-radius: 60px;
+  box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+}
+
+.volunteerImage{
+  width: 50px;
+  height: 50px;
+  border-radius: 9999px;
+}
+
+@media screen and (max-width: 800px){
+
+ .volunteerInfo{
+   margin-left: 20px;
+ }
+ .volunteerInfo *{
+   display: block;
+   line-height: 25px;
+   margin-left: 0px;
+ }

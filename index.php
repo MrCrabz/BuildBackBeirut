@@ -150,7 +150,7 @@ require_once('functions/get.php');
             }
             echo "
             <section>
-                <div class='container py-3'>
+                <div class='container py-3 singlePropertyListing'>
                     <div class='bs-example card horizontal-card'>
                         <div class='row no-gutters'>
                             <div class='col-sm-4 buildingImage' style='background-image:url(./siteImages/building-Sample.jpeg)'></div>
@@ -162,8 +162,10 @@ require_once('functions/get.php');
                                     <span class='header-border-small'></span>
                                     <p class='card-text'>". substr($pld[$i]["property_description"], 0, 250) ."</p>
                                     <h5 class='card-title'>Progress Status:</h5>
-                                    <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $percentage_single_property ."%'>
-                                        <span class='progress-value'>". $percentage_single_property ."%</span>
+                                    <div class='progress-container'>
+                                      <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $percentage_single_property ."%'>
+                                          <span class='progress-value'>". $percentage_single_property ."%</span>
+                                      </div>
                                     </div>
                                     <a href='./property.php?id=". $pld[$i]["property_id"] ."' class='btn btn-primary'>View Site</a>
                                     <button class='btn btn-primary' data-toggle='modal' data-target='#propertyDonation' data-property='?propertyId=". $pld[$i]["property_id"] ."' onClick='addpropertyID(". $pld[$i]["property_id"] .")'>
@@ -234,9 +236,9 @@ require_once('functions/get.php');
                 // print($percentage);
                   echo"
                     <div class='progress-container'>
-                      <span class='progress-badge'>Goal: ".$rows[$j]["material_name"]."</span>
+                      <span class='progress-badge'>".$rows[$j]["material_name"]."</span>
                       <div class='progress'>
-                        <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width:".$percentage."'%;'>
+                        <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width:".$percentage."%;'>
                           <span class='progress-value'>".$percentage."%</span>
                         </div>
                       </div>

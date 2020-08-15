@@ -1,27 +1,30 @@
 <?php
   require_once('functions/db.php');
-  // require_once('functions/get.php');
+
   $property_id = $_GET["id"];
-  $property_listing_data = file_get_contents('functions/data/property_listing.json');
-  $plist = json_decode($property_listing_data, true);
-  $property_listing_data = file_get_contents('functions/data/property_listing_idAccess.json');
-  $plistid = json_decode($property_listing_data, true);
-  $siteDesc = $plistid[$property_id]["property_description"];
+  //QUERY TO GET THIS SPECIFIC PROPERTY DATA
+    $query = "SELECT * FROM property WHERE property_id = '$property_id' ";
+    $query_result = mysqli_query($conn, $query);
+    while($record = mysqli_fetch_assoc($query_result)) {
+        $property_data[] = $record;
+    }
+    $property_data=$property_data[0];
+    $property_name=$property_data["property_name"];
+    $property_description=$property_data["property_description"];
+    $property_longitude=$property_data["longitude"];
+    $property_latitude=$property_data["latitude"];
 
-  $mnquery = "SELECT material_id, quantity FROM materialneeded WHERE property_id = '$property_id' ";
-  $mnresult = mysqli_query($conn, $mnquery);
+  //QUERY TO GET CATEGORY LISTING WITH SUM N A
+    $query = "SELECT p.property_id, c.category_id, c.category_name,
+    SUM(n.quantity) as sumn, SUM(a.quantity) as suma FROM materialcategory c, material m, materialneeded n, materialaquired a, property p
+    WHERE p.property_id=a.property_id AND p.property_id=n.property_id AND m.material_id=a.material_id AND m.material_id= n.material_id
+    AND c.category_id=m.material_category AND n.quantity<>0 AND p.property_id='$property_id'
+    GROUP BY c.category_id,p.property_id";
 
-  while($mnr = mysqli_fetch_assoc($mnresult)) {
-      $materials_needed[$mnr["material_id"]] = $mnr;
-  }
-
-  $maquery = "SELECT material_id, quantity FROM materialaquired WHERE property_id = '$property_id' ";
-  $maresult = mysqli_query($conn, $maquery);
-
-  while($mar = mysqli_fetch_assoc($maresult)) {
-      $materials_aquired[$mar["material_id"]] = $mar;
-  }
-
+    $query_result = mysqli_query($conn, $query);
+    while($record = mysqli_fetch_assoc($query_result)) {
+        $category_listing_data[] = $record;
+    }
 
 ?>
 
@@ -34,7 +37,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    <?php echo $plistid[$property_id]["property_name"] ?>
+    <?php echo $property_name ?>
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -116,20 +119,24 @@
     <div class="page-header clear-filter page-header-small" filter-color="orange">
       <div class="page-header-image" data-parallax="true" style="background-image:url('./siteImages/building-Sample.jpeg');">
       </div>
-      <div class="container">
+      <div class="container text-left">
         <!-- <div class="photo-container">
           <img src="./assets/img/ryan.jpg" alt="">
         </div> -->
         <?php
+        $sumn=0;
+        $suma=0;
+        for($i=0;$i<count($category_listing_data);$i++){
+          $sumn+=$category_listing_data[$i]["sumn"];
+          $suma+=$category_listing_data[$i]["suma"];
+        }
+        $percentage_single_property = floor(($suma/$sumn)*100);
 
-        $shu = file_get_contents('functions/data/test.json');
-        $tett = json_decode($property_listing_data, true);
+        $propertySituation = "Critical";
 
-        $percentage_single_property = 50;
-
-        echo "<h3 class='title'>".$plistid[$property_id]["property_name"]."</h3>
+        echo "<h3 class='title'>" . "<div class='singlePropertyId singlePropertyMeta'>#" . $property_id . "</div><div class='singlePropertySituation singlePropertyMeta'>" . $propertySituation . "</div><br>" .$property_name . "</h3>
               <p class='category'>Site Progress:</p>
-              <div class='text-cemter progressProperty'>
+              <div class='text-center progressProperty'>
                 <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: ". $percentage_single_property ."%;'>
                   <span class='progress-value'>". $percentage_single_property ."%</span>
                 </div>
@@ -164,37 +171,103 @@
         </div>
         <div class="row">
           <div class="col-lg-8 col-xs-12">
-            <h3 class="title text-left">About The Site</h3>
-            <h5 class="description text-left">
-              <?php echo $siteDesc ?>
-            </h5>
 
-            <h3 class="title text-left">Images</h3>
+            <div class="propertySection">
 
-              <div class="col-md-12 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <a href="./assets/img/bg3.jpg" class="fresco" data-fresco-group="shared_options">
-                      <img src="./assets/img/bg3.jpg" alt="" class="img-raised fresco">
-                    </a>
-                    <a href="./assets/img/bg8.jpg" class="fresco" data-fresco-group="shared_options">
-                      <img src="./assets/img/bg8.jpg" alt="" class="img-raised fresco">
-                    </a>
+              <div class="sectionTitle">
+                <h3 class="title text-left">About the site</h3>
+                <span class='header-border-small'></span>
+              </div>
+
+              <h5 class="description text-left">
+                <?php echo $property_description ?>
+              </h5>
+            </div>
+
+
+            <div class="propertySection">
+
+              <div class="sectionTitle">
+                <h3 class="title text-left">Volunteers on site</h3>
+                <span class='header-border-small'></span>
+              </div>
+
+
+              <div class="voluntersList">
+
+                <div class="singleVolunteerModule">
+                  <img src="./assets/img/ryan.jpg" alt="" class="volunteerImage">
+                  <div class="volunteerInfo">
+                    <h4 class="volunteerName">Ryan Reynolds</h4>
+                    <p class="volunteerJob">Architect</p>
                   </div>
-                  <div class="col-md-6">
-                    <a href="./assets/img/bg3.jpg" class="fresco" data-fresco-group="shared_options">
-                      <img src="./assets/img/bg3.jpg" alt="" class="img-raised fresco">
-                    </a>
-                    <a href="./assets/img/bg7.jpg" class="fresco" data-fresco-group="shared_options">
-                      <img src="./assets/img/bg6.jpg" alt="" class="img-raised fresco">
-                    </a>
+                  <a href="tel:+96100000000" class="volunteerNumber ">
+                    <i class="now-ui-icons tech_mobile"></i>
+                  </a>
+                </div>
+
+                <div class="singleVolunteerModule">
+                  <img src="./assets/img/ryan.jpg" alt="" class="volunteerImage">
+                  <div class="volunteerInfo">
+                    <h4 class="volunteerName">Ryan Reynolds</h4>
+                    <p class="volunteerJob">Cleaning</p>
+                  </div>
+                  <a href="tel:+96100000000" class="volunteerNumber ">
+                    <i class="now-ui-icons tech_mobile"></i>
+                  </a>
+                </div>
+
+                <div class="singleVolunteerModule">
+                  <img src="./assets/img/ryan.jpg" alt="" class="volunteerImage">
+                  <div class="volunteerInfo">
+                    <h4 class="volunteerName">Ryan Reynolds</h4>
+                    <p class="volunteerJob">Civil Engineer</p>
+                  </div>
+                  <a href="tel:+96100000000" class="volunteerNumber ">
+                    <i class="now-ui-icons tech_mobile"></i>
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="propertySection">
+
+              <div class="sectionTitle">
+                <h3 class="title text-left">Images</h3>
+                <span class='header-border-small'></span>
+              </div>
+
+                <div class="col-md-12 ml-auto mr-auto">
+                  <div class="row collections">
+                    <div class="col-md-6">
+                      <a href="./assets/img/bg3.jpg" class="fresco" data-fresco-group="shared_options">
+                        <img src="./assets/img/bg3.jpg" alt="" class="img-raised fresco">
+                      </a>
+                      <a href="./assets/img/bg8.jpg" class="fresco" data-fresco-group="shared_options">
+                        <img src="./assets/img/bg8.jpg" alt="" class="img-raised fresco">
+                      </a>
+                    </div>
+                    <div class="col-md-6">
+                      <a href="./assets/img/bg3.jpg" class="fresco" data-fresco-group="shared_options">
+                        <img src="./assets/img/bg3.jpg" alt="" class="img-raised fresco">
+                      </a>
+                      <a href="./assets/img/bg7.jpg" class="fresco" data-fresco-group="shared_options">
+                        <img src="./assets/img/bg6.jpg" alt="" class="img-raised fresco">
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
+            </div>
 
           </div>
           <div class="col-lg-4 col-xs-12">
-            <h3 class="title text-left">Materials Needed</h3>
+
+            <div class="sectionTitle">
+              <h3 class="title text-left">Materials Needed</h3>
+              <span class='header-border-small'></span>
+            </div>
+
             <div class = "container">
 
 
@@ -203,38 +276,39 @@
           <!-- end container -->
             <?php
 
-              $category_listing_data = file_get_contents('functions/data/category_listing.json');
-              $cld = json_decode($category_listing_data, true);
-
-              $material_listing_data = file_get_contents('functions/data/material_listing_categoryAccess.json');
-              $mld = json_decode($material_listing_data, true);
-
-              $tablename="material";
               //for loop to list all the categories
-              for($i=0;$i<count($cld);$i++){
-                $catId=$cld[$i]["category_id"];
-                $query = "SELECT * FROM $tablename WHERE material_category = '$catId' ";
-                $result = mysqli_query($conn, $query);
-                while($r = mysqli_fetch_assoc($result)) {
-                    $rows[] = $r;
+              for($i=0;$i<count($category_listing_data);$i++){
+                $category_id=$category_listing_data[$i]["category_id"];
+                $category_name=$category_listing_data[$i]["category_name"];
+
+                $category_needed=$category_listing_data[$i]["sumn"];
+                $category_aquired=$category_listing_data[$i]["suma"];
+                $category_percentage= floor(($category_aquired/$category_needed)*100);
+
+                //QUERY TO GET EACH MATERIALS' NEEDED AND AQUIRED
+                $query = "SELECT p.property_id,c.category_id, c.category_name, m.material_id, m.material_name, n.quantity
+                as needed_quantity, a.quantity as aquired_quantity
+                FROM property p, materialcategory c, material m, materialneeded n, materialaquired a
+                WHERE c.category_id=m.material_category AND m.material_id=n.material_id AND m.material_id=a.material_id AND p.property_id=n.property_id
+                AND p.property_id=a.property_id AND n.quantity<>0 AND p.property_id='$property_id' AND c.category_id='$category_id'";
+
+                $query_result = mysqli_query($conn, $query);
+                while($record = mysqli_fetch_assoc($query_result)) {
+                    $material_property_data[] = $record;
                 }
 
-                // echo "
-                // <br>
-                // <div class='progress-container'>
-                //   <h4 class='title text-left'>". $cld[$i]["category_name"] ."</h3>
-                // ";
+
 
                 echo "
                 <div class='panel-heading'>
                   <h4 class='panel-title'>
-                    <a class='accordion-toggle' data-toggle='collapse' data-parent='#accordion' href='#". str_replace(' ', '',$cld[$i]["category_name"]) ."'>
-                      ". $cld[$i]["category_name"] ."
+                    <a class='accordion-toggle' data-toggle='collapse' data-parent='#accordion' href='#". str_replace(' ', '',$category_name) ."'>
+                      ". $category_name . "<span class='motherCategoryPercentage'>" . $category_percentage . "%</span>
                       <i class='now-ui-icons arrows-1_minimal-down'></i>
                     </a>
                   </h4>
                 </div>
-                <div id='". str_replace(' ', '',$cld[$i]["category_name"]) ."' class='panel-collapse collapse'>
+                <div id='". str_replace(' ', '',$category_name) ."' class='panel-collapse collapse'>
                 ";
 
                 // echo "
@@ -243,39 +317,27 @@
                 // ";
 
 
-                for($j=0;$j<count($rows);$j++){
-                  $matID=$rows[$j]["material_id"];
+                for($j=0;$j<count($material_property_data);$j++){
 
-                  $progressStatus = "Disabled";
-
-                  $mn=$materials_needed[$matID]["quantity"];
-                  $ma=$materials_aquired[$matID]["quantity"];
-                  if($mn==0){
-                    $progress = 100;
-                  }else{
-                    $progress=floor(($ma/$mn)*100);
-                    if ($progress == 100) {
-                      $progressStatus = "Completed";
-                    } else {
-                      $progressStatus = $ma . "/" . $mn;
-                    }
-                  }
-
-                  $progressClass = "progress-container " . $progressStatus;
+                  $material_id=$material_property_data[$j]["material_id"];
+                  $material_name=$material_property_data[$j]["material_name"];
+                  $needed_quantity=$material_property_data[$j]["needed_quantity"];
+                  $aquired_quantity=$material_property_data[$j]["aquired_quantity"];
+                  $progress=floor(($aquired_quantity/$needed_quantity)*100);
 
                   echo "
-
-                  <div class='". $progressClass ."'>
-                    <span class='progress-badge'>".$rows[$j]["material_name"]."</span>
-                    <div class='progress'>
-                      <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width:".$progress."%;'>
-                        <span class='progress-value'>". $progressStatus ."</span>
+                    <div class='progress-container'>
+                      <span class='progress-badge'>".$material_name."</span>
+                      <div class='progress'>
+                        <div class='progress-bar' role='progressbar' aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width:".$progress."%;'>
+                          <span class='progress-value'>".$progress."%</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
+
                   ";
                 }
-                unset($rows);
+                unset($material_property_data);
                 echo "</div>";
               }
             ?>
@@ -333,50 +395,45 @@
                 require("functions/countries.html");
                 ?>
             </div>
+
+
             <h4>Materials</h4>
             <span class="header-border-small"></span>
-            <div class="row">
-              <div class="col-6">
-                <h5>Wood</h5>
-                <div class="input-group no-border">
-                  <input type="number" placeholder="1000 Needed" class="form-control" />
-                </div>
-              </div>
-              <div class="col-6">
-                <h5>Doors</h5>
-                <div class="input-group no-border">
-                  <input type="number" placeholder="1000 Needed" class="form-control" />
-                </div>
-              </div>
-              <div class="col-6">
-                <h5>Window Glass</h5>
-                <div class="input-group no-border">
-                  <input type="number" placeholder="1000 Needed" class="form-control" />
-                </div>
-              </div>
-              <div class="col-6">
-                <h5>Aluminum Frames</h5>
-                <div class="input-group no-border">
-                  <input type="number" placeholder="1000 Needed" class="form-control" />
-                </div>
-              </div>
-              <div class="col-6">
-                <h5>Locks & Frames</h5>
-                <div class="input-group no-border">
-                  <input type="number" placeholder="1000 Needed" class="form-control" />
-                </div>
-              </div>
-              <div class="col-6">
-                <h5>Cement</h5>
-                <div class="input-group no-border">
-                  <input type="number" placeholder="1000 Needed" class="form-control" />
-                </div>
-              </div>
-            </div>
+            <?php
+              for($i=0;$i<count($category_listing_data);$i++){
+                $category_id=$category_listing_data[$i]["category_id"];
+                $category_name=$category_listing_data[$i]["category_name"];
+
+                $query = "SELECT p.property_id,c.category_id, c.category_name, m.material_id, m.material_name, n.quantity as needed_quantity, a.quantity as aquired_quantity FROM property p, materialcategory c, material m, materialneeded n, materialaquired a WHERE c.category_id=m.material_category AND m.material_id=n.material_id AND m.material_id=a.material_id AND p.property_id=n.property_id AND p.property_id=a.property_id AND n.quantity<>0 AND p.property_id='$property_id' AND c.category_id='$category_id'";
+                  $query_result = mysqli_query($conn, $query);
+                  while($record = mysqli_fetch_assoc($query_result)) {
+                      $material_property_data[] = $record;
+                  }
+                  echo"
+                  <div class='row'>
+                    <div class='col-6'>
+                      <h5>".$category_name."</h5>
+                      ";
+                      for($j=0;$j<count($material_property_data);$j++){
+                        $material_name=$material_property_data[$j]["material_name"];
+                        $needed_quantity=$material_property_data[$j]["needed_quantity"];
+                        $aquired_quantity=$material_property_data[$j]["aquired_quantity"];
+                        echo "
+                        <h6>".$material_name."</h6>
+                        <div class='input-group no-border'>
+                          <input type='number' placeholder='".$needed_quantity."' class='form-control' />
+                        </div>
+                        ";
+                        }
+                    echo "
+                    </div>
+                  </div>
+                  ";
+                  unset($material_property_data);
+              }
 
 
-
-
+            ?>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary">Submit</button>
@@ -440,10 +497,7 @@
       style: 'mapbox://styles/robingeagea/cjqu4vv0915my2rmhm8lcl1vh',
       center: <?php
 
-      $shu = file_get_contents('functions/data/property_listing_idAccess.json');
-      $tett = json_decode($property_id, true);
-
-      echo "[" . $plistid[$property_id]["latitude"] . "," . $plistid[$property_id]["longitude"]. "]";
+      echo "[" .  $property_latitude . "," .  $property_longitude. "]";
 
       ?>,
       zoom: 17
@@ -455,7 +509,7 @@
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [<?php echo $plistid[$property_id]["latitude"] . "," . $plistid[$property_id]["longitude"] ?>]
+          coordinates: [<?php echo $property_latitude . "," .  $property_longitude ?>]
         }
       }]
     };
