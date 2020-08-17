@@ -1,0 +1,22 @@
+{"type":"FeatureCollection","features":[{
+    "type":"Feature",
+    "geometry":{"type":"Point",
+      "coordinates":[35.5135,
+      33.8946]},
+      "properties":{"id":"3",
+        "percentageCompleted":"33",
+        "description":"3"}},{
+    "type":"Feature",
+    "geometry":{"type":"Point",
+      "coordinates":[35.5107,
+      33.8952]},
+      "properties":{"id":"4",
+        "percentageCompleted":"10",
+        "description":"4"}},{
+    "type":"Feature",
+    "geometry":{"type":"Point",
+      "coordinates":[35.5141,
+      33.895]},
+      "properties":{"id":"5",
+        "percentageCompleted":"65",
+        "description":"5"}}]}

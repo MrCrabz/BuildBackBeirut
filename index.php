@@ -177,7 +177,7 @@ require_once('functions/get.php');
                                       </div>
                                     </div>
                                     <a href='./property.php?id=". $pld[$i]["property_id"] ."' class='btn btn-primary'>View Site</a>
-                                    <button class='btn btn-primary' data-toggle='modal' data-target='#propertyDonation' data-property='?propertyId=". $pld[$i]["property_id"] ."' onClick='addpropertyID(". $pld[$i]["property_id"] .")'>
+                                    <button class='btn btn-primary' data-toggle='modal' data-target='#propertyDonation' data-property='?propertyId=". $pld[$i]["property_id"] ."' onClick='addpropertyID()". $pld[$i]["property_id"] .")'>
                                       Donate
                                     </button>
                                 </div>
