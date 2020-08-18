@@ -7789,3 +7789,17 @@ img {
    line-height: 25px;
    margin-left: 0px;
  }
+}
+
+.donationPage .title{
+  margin-bottom: 10px !important;
+}
+
+.quoteAuthor{
+  text-transform: italic;
+}
+
+.donationsSection{
+  display: block;
+  margin: auto;
+}
